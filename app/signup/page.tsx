@@ -5,9 +5,14 @@ import { redirect } from 'next/navigation'
 
 export default async function SignupPage() {
   const session = (await auth()) as Session
+  const enableRegistration = process.env.NEXT_PUBLIC_ENABLE_REGISTRATION === 'true'
 
   if (session) {
     redirect('/')
+  }
+
+  if (!enableRegistration) {
+    redirect('/login')
   }
 
   return (
