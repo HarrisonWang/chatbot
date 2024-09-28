@@ -26,23 +26,16 @@ async function UserOrLogin() {
             <ChatHistory userId={session.user.id} />
           </SidebarMobile>
           <SidebarToggle />
+          <div className="flex items-center">
+            <IconSeparator className="size-6 text-muted-foreground/50" />
+            <UserMenu user={session.user} />
+          </div>
         </>
       ) : (
-        <Link href="/new" rel="nofollow">
-          <IconNextChat className="size-6 mr-2 dark:hidden" inverted />
-          <IconNextChat className="hidden size-6 mr-2 dark:block" />
-        </Link>
+        <Button variant="link" asChild className="-ml-2">
+          <Link href="/login">Login</Link>
+        </Button>
       )}
-      <div className="flex items-center">
-        <IconSeparator className="size-6 text-muted-foreground/50" />
-        {session?.user ? (
-          <UserMenu user={session.user} />
-        ) : (
-          <Button variant="link" asChild className="-ml-2">
-            <Link href="/login">Login</Link>
-          </Button>
-        )}
-      </div>
     </>
   )
 }

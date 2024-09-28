@@ -1,3 +1,4 @@
+import { redirect } from 'next/navigation'
 import { nanoid } from '@/lib/utils'
 import { Chat } from '@/components/chat'
 import { AI } from '@/lib/chat/actions'
@@ -10,13 +11,18 @@ export const metadata = {
 }
 
 export default async function IndexPage() {
+  const session = await auth()
+  
+  if (!session) {
+    redirect('/login')
+  }
+  
   const id = nanoid()
-  const session = (await auth()) as Session
   const missingKeys = await getMissingKeys()
 
   return (
     <AI initialAIState={{ chatId: id, messages: [] }}>
-      <Chat id={id} session={session} missingKeys={missingKeys} />
+      <Chat id={id} session={session as Session} missingKeys={missingKeys} />
     </AI>
   )
 }
